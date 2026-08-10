@@ -15,4 +15,11 @@ RUN uv pip install --system . mcp[cli]
 EXPOSE 8000
 
 # Run the Scopus MCP server wrapped in an SSE transport layer
-CMD ["mcp", "run", "scopus-mcp", "--transport", "sse", "--port", "8000"]
+# Expose port for cloud hosting
+EXPOSE 8000
+
+# Set the port via environment variable instead of a flag
+ENV PORT=8000
+
+# Run the Scopus MCP server with the corrected command structure
+CMD ["mcp", "run", "scopus-mcp", "--transport", "sse"]

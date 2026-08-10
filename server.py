@@ -1,11 +1,14 @@
 import os
-from mcp.server.fastapi import FastMcpServer
+from fastmcp import FastMCP
 from scopus_mcp import server as scopus_server
 
-# Wrap the Scopus MCP server implementation inside an SSE-capable FastAPI handler
-app = FastMcpServer(scopus_server)
+# Initialize FastMCP which natively supports SSE routing and FastAPI out of the box
+mcp = FastMCP("Scopus Server")
+
+# Bind your imported scopus logic tool definitions to the fastmcp instance
+mcp.tools = scopus_server.tools
 
 if __name__ == "__main__":
-    import uvicorn
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    # Direct execution string using built-in transport definitions
+    mcp.run(transport="http", host="0.0.0.0", port=port)

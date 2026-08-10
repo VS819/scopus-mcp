@@ -1,9 +1,9 @@
 import os
-import mcp.server.fastapi
+from mcp.server.asgi import ASGIApp
 from scopus_mcp.server import server
 
-# This relies on the core mcp library to serve the scopus server over an SSE web port
-app = mcp.server.fastapi.FastMcpServer(server)
+# Use the stable, core ASGI server adapter that has no extra dependencies
+app = ASGIApp(server)
 
 if __name__ == "__main__":
     import uvicorn
